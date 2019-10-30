@@ -1,0 +1,3 @@
+<design:component>
+	<design:attribute name="fieldName" label="Field Name" description="Name of the picklist field to use" />
+</design:component>
