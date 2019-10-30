@@ -42,7 +42,7 @@ This component is for display purposes only of the picklist, it does not contain
 In the image below:
 - First is the `Path` component showing the path updated button.
 - Second is the `Path` component hiding the path update button.
-- Trhis is the `Linear Path` component, without the update button and the _Stage Name_ label.
+- Third is the `Linear Path` component, without the update button and the _Stage Name_ label.
 
 ![linear path example](assets/linear_path_comparison.png?raw=true)
 
