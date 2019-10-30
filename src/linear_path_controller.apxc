@@ -7,16 +7,30 @@ public class linear_path_controller {
         //find object name from recordId
         String objectName = Id.valueOf(recordID).getSObjectType().getDescribe().getName();
         
+        Boolean isOppty = objectName == 'Opportunity' && fieldName == 'StageName';
+        
         //get all active values for the picklist
-        if (objectName == 'Opportunity' && fieldName == 'StageName') {
+        if (isOppty) {
             path.values = stageValues();
         }  else {
         	path.values = picklistValues(objectName, fieldName);
         }
         
 		//find the current value of the picklist
-        List<sObject> sobjList = Database.query('SELECT ' + fieldName + ' FROM ' + objectName + ' WHERE Id = :recordId');
+        List<sObject> sobjList = Database.query('SELECT ' + fieldName + (isOppty ? ', IsClosed, IsWon' : '') + ' FROM ' + objectName + ' WHERE Id = :recordId');
         path.current = sobjList[0].get(fieldName);
+
+        //check the Opportunity Status
+        if (isOppty) {
+            path.isClosed = (Boolean)sobjList[0].get('IsClosed');
+            path.isLost = path.isClosed && !((Boolean)sobjList[0].get('IsWon'));
+            if (path.isClosed) {
+                //replace the last value with the value name
+                path.values[path.values.size()-1] = (String)sobjList[0].get('StageName');
+            }
+        } else {
+            path.isLost = false;
+        }
         
         return path;
     }
@@ -50,5 +64,9 @@ public class linear_path_controller {
         public List<string> values;
         @Auraenabled
         public object current;
+        @Auraenabled
+        public boolean isLost;
+        @Auraenabled
+        public boolean isClosed;
     }
 }
