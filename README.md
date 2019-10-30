@@ -31,7 +31,7 @@ The component is available in the lightning page designer, so it can be added to
 
 If _scale_ is set to false, content will be hidden if it doesn't fit in the container, otherwise it will scale down to fit in the available space.
 
-It has special management for the _StageName_ field in the `Opportunity` object, so it won't show the _closed_ values, instead it will display just _Close_.
+It has special management for the _StageName_ field in the `Opportunity` object, so it won't show the _closed_ values, instead it will display just _Close_, unless the Opportunity it is closed, it will then show the _StageName_ value, same as the generic Lightning Path component.
 
 Current version has no functionality, just displayes the picklist values.
 
