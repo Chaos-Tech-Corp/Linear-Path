@@ -1,0 +1,54 @@
+public class linear_path_controller {
+    
+    @Auraenabled
+    public static pathDetails getPath(string recordId, string fieldName) {
+        pathDetails path = new pathDetails();
+        
+        //find object name from recordId
+        String objectName = Id.valueOf(recordID).getSObjectType().getDescribe().getName();
+        
+        //get all active values for the picklist
+        if (objectName == 'Opportunity' && fieldName == 'StageName') {
+            path.values = stageValues();
+        }  else {
+        	path.values = picklistValues(objectName, fieldName);
+        }
+        
+		//find the current value of the picklist
+        List<sObject> sobjList = Database.query('SELECT ' + fieldName + ' FROM ' + objectName + ' WHERE Id = :recordId');
+        path.current = sobjList[0].get(fieldName);
+        
+        return path;
+    }
+    
+    public static List<string> stageValues() {
+        //retrieve the values from the StageName field, only active values and group all closed values under 'Close'
+        List<string> values = new List<string>();
+        for(OpportunityStage stage : [SELECT ApiName, Description, IsWon, IsClosed FROM OpportunityStage WHERE IsActive = true AND IsClosed = false ORDER BY SortOrder ASC]) {
+            values.add(stage.ApiName);
+        }
+        values.add('Closed');
+        return values;
+    }
+    
+    public static String[] picklistValues(String objectName, String fieldName) {
+        List<string> values = new List<string>();
+            
+        Schema.DescribeSobjectResult[] results = Schema.describeSObjects(new String[]{objectName});
+        
+        for(Schema.DescribeSobjectResult res : results) {
+            for (Schema.PicklistEntry entry : res.fields.getMap().get(fieldName).getDescribe().getPicklistValues()) {
+                if (entry.isActive()) {values.add(entry.getValue());}
+            }
+        }
+        return values;
+    }
+    
+    
+    public class pathDetails {
+        @Auraenabled
+        public List<string> values;
+        @Auraenabled
+        public object current;
+    }
+}
