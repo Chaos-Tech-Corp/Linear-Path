@@ -6,17 +6,19 @@ This component creates a linear path view from a _picklist_ field.
 
 ## Usage
 
-Define the `modal_confirmation` component in a custom component markup:
+Define the `linear_path` component in a custom component markup:
 
 ```xml
 <aura:component>
 
-    <c:linear_path fieldName="Status" 
+    <c:linear_path fieldName="StageName" 
                    recordId="{!v.recordId}" 
                    scale="true"/>
 
 </aura:component>
 ```
+
+The component is available in the lightning page designer, so it can be added to any record page without writting any code.
 
 ## Properties
 
@@ -27,7 +29,7 @@ Define the `modal_confirmation` component in a custom component markup:
 
 ###### NOTES &amp; CONSIDERATIONS
 
-I _scale_ is set to false, content will be hidden if it doesn't fit in the container, otherwise it will scale down to fit in the available space.
+If _scale_ is set to false, content will be hidden if it doesn't fit in the container, otherwise it will scale down to fit in the available space.
 
 It has special management for the _StageName_ field in the `Opportunity` object, so it won't show the _closed_ values, instead it will display just _Close_.
 
