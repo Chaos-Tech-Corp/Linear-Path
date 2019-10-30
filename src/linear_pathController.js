@@ -6,13 +6,21 @@
         action.setParams({ recordId : cmp.get("v.recordId"), fieldName : cmp.get("v.fieldName") });
         action.setCallback(this, function(response) {
             var result = response.getReturnValue(),
-                index = 0;
+                index = result.values.length - 1;
+            
             cmp.set("v.values", result.values);
-            for (var i = 0; i < result.values.length; i++) {
-                if (result.values[i] == result.current) {
-                    index = i; break;
+            cmp.set("v.isLost", result.isLost);
+            cmp.set("v.isClosed", result.isClosed);
+            
+            if (result.isLost == false) {
+                //find the index/position of the picklist value in the list
+                for (var i = 0; i < result.values.length; i++) {
+                    if (result.values[i] == result.current) {
+                        index = i; break;
+                    }
                 }
             }
+            
             cmp.set("v.current", index);
         });
         $A.enqueueAction(action);
