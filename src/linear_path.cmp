@@ -1,0 +1,53 @@
+<aura:component  implements="force:hasRecordId,flexipage:availableForRecordHome" controller="linear_path_controller">
+    
+    <!--picklist field to use for the path-->    
+    <aura:attribute name="cmpId" type="string" default="" />
+    <aura:attribute name="fieldName" type="string" default="" />
+    <aura:attribute name="scale" type="Boolean" default="false" />
+    <aura:attribute name="values" type="List" default="[]"  access="private"/>
+    <aura:attribute name="current" type="Integer" default="0"  access="private"/>
+    
+    <!--Event Handlers-->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler event="force:refreshView" action="{!c.doInit}" />
+    <aura:handler name="render" value="{!this}" action="{!c.onRender}"/>
+
+    
+    <article class="slds-card">
+
+        <div class="slds-card__body slds-card__body_inner">
+            
+            <aura:if isTrue="{!empty(v.values)}">
+                <lightning:spinner alternativeText="Loading" size="small" />
+            </aura:if>
+            
+            <div class="slds-path" style="overflow:hidden">
+                <div class="slds-grid slds-path__track" id="{! v.cmpId  + '_track_container'}" style="transform-origin:0 0;"> <!-- transform:scale(0.65)-->
+                    <div class="slds-grid slds-path__scroller-container">
+                        <div class="slds-path__scroller" role="application">
+                            <div class="slds-path__scroller_inner">
+                                <ul class="slds-path__nav" role="listbox" aria-orientation="horizontal" id="{! v.cmpId  + '_nav_container'}">
+
+                                    <aura:iteration items="{!v.values}" var="item" indexVar="ix">
+                                        <li class="{! 'slds-path__item ' + ( ix &lt; v.current ? 'slds-is-complete' : ( ix == v.current ? 'slds-is-current  slds-is-active' :  'slds-is-incomplete') )}" role="presentation">
+                                            <a aria-selected="false" class="slds-path__link" href="javascript:void(0);" id="{!v.cmpId  + 'path-' + ix}" role="option" tabindex="0">
+                                                <span class="slds-path__stage">
+                                                    <lightning:icon iconName="utility:check" variant="inverse" size="x-small" aria-hidden="true"/>
+                                                </span>
+                                                <span class="slds-path__title">{!item}</span>
+                                            </a>
+                                        </li>    
+                                    </aura:iteration>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        
+    </article>
+    
+</aura:component>
