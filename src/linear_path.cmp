@@ -6,6 +6,8 @@
     <aura:attribute name="scale" type="Boolean" default="false" />
     <aura:attribute name="values" type="List" default="[]"  access="private"/>
     <aura:attribute name="current" type="Integer" default="0"  access="private"/>
+    <aura:attribute name="isLost" type="Boolean" default="false"  access="private"/>
+    <aura:attribute name="isClosed" type="Boolean" default="false"  access="private"/>
     
     <!--Event Handlers-->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
@@ -29,7 +31,7 @@
                                 <ul class="slds-path__nav" role="listbox" aria-orientation="horizontal" id="{! v.cmpId  + '_nav_container'}">
 
                                     <aura:iteration items="{!v.values}" var="item" indexVar="ix">
-                                        <li class="{! 'slds-path__item ' + ( ix &lt; v.current ? 'slds-is-complete' : ( ix == v.current ? 'slds-is-current  slds-is-active' :  'slds-is-incomplete') )}" role="presentation">
+                                        <li class="{! 'slds-path__item ' + ( ix &lt; v.current ? (v.isLost ? 'slds-is-incomplete' : 'slds-is-complete') : ( ix == v.current ? (v.isLost ? 'slds-is-lost ' : '') + (v.isClosed &amp;&amp; !v.isLost ? 'slds-is-won ' : '') + 'slds-is-active slds-is-current' :  'slds-is-incomplete') )}" role="presentation">
                                             <a aria-selected="false" class="slds-path__link" href="javascript:void(0);" id="{!v.cmpId  + 'path-' + ix}" role="option" tabindex="0">
                                                 <span class="slds-path__stage">
                                                     <lightning:icon iconName="utility:check" variant="inverse" size="x-small" aria-hidden="true"/>
@@ -38,7 +40,15 @@
                                             </a>
                                         </li>    
                                     </aura:iteration>
-
+                                    
+                                    <!--<li class="slds-path__item slds-is-incomplete" role="presentation">
+                                        <a aria-selected="false" class="slds-path__link" href="javascript:void(0);" id="path-5" role="option" tabindex="-1">
+                                            <span class="slds-path__stage">
+                                                <lightning:icon iconName="utility:check" size="x-small" />
+                                            </span>
+                                            <span class="slds-path__title">Closed</span>
+                                        </a>
+                                    </li>-->
                                 </ul>
                             </div>
                         </div>
