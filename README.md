@@ -1,3 +1,5 @@
+[![Deploy](https://deploy2.org/dist/deploy2org.svg)](https://deploy2.org/deploy)
+
 # Linear Path
 
 This component creates a linear path view from a _picklist_ field in any object in Salesforce and allow to scale down the component to fit in its parent container.
