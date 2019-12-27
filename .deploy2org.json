@@ -1,0 +1,11 @@
+{
+	"component_name": "Linear_Path",
+	"api_version": "v47.0",
+	"apex_class": ["/src/linear_path_controller.apxc"],
+	"bundle_details": {
+		"component": "/src/linear_path.cmp",
+		"controller": "/src/linear_pathController.js",
+		"style": "/src/linear_path.css"
+    "design":"/src/linear_path.design"
+	}
+}
