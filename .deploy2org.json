@@ -5,7 +5,7 @@
 	"bundle_details": {
 		"component": "/src/linear_path.cmp",
 		"controller": "/src/linear_pathController.js",
-		"style": "/src/linear_path.css"
-    "design":"/src/linear_path.design"
+		"style": "/src/linear_path.css",
+    		"design":"/src/linear_path.design"
 	}
 }
