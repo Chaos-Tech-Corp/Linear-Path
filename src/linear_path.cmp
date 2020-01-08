@@ -3,7 +3,11 @@
     <!--picklist field to use for the path-->    
     <aura:attribute name="cmpId" type="string" default="" />
     <aura:attribute name="fieldName" type="string" default="" />
+    <aura:attribute name="errorMessage" type="string" default="" />
     <aura:attribute name="scale" type="Boolean" default="false" />
+    <aura:attribute name="closedValues" type="string" />
+    <aura:attribute name="closedLostValues" type="string" />
+    <aura:attribute name="closedValueName" type="string" />
     <aura:attribute name="values" type="List" default="[]"  access="private"/>
     <aura:attribute name="current" type="Integer" default="0"  access="private"/>
     <aura:attribute name="isLost" type="Boolean" default="false"  access="private"/>
@@ -19,11 +23,15 @@
 
         <div class="slds-card__body slds-card__body_inner">
             
-            <aura:if isTrue="{!empty(v.values)}">
+            <aura:if isTrue="{!not(empty(v.errorMessage))}">
+                <i class="slds-text-color_error">{!v.errorMessage}</i>
+            </aura:if>
+            
+            <aura:if isTrue="{!and(empty(v.values),empty(v.errorMessage))}">
                 <lightning:spinner alternativeText="Loading" size="small" />
             </aura:if>
             
-            <div class="slds-path" style="overflow:hidden">
+            <div class="slds-path" style="overflow:hidden; min-height:32px;">
                 <div class="slds-grid slds-path__track" id="{! v.cmpId  + '_track_container'}" style="transform-origin:0 0;"> <!-- transform:scale(0.65)-->
                     <div class="slds-grid slds-path__scroller-container">
                         <div class="slds-path__scroller" role="application">
@@ -40,15 +48,7 @@
                                             </a>
                                         </li>    
                                     </aura:iteration>
-                                    
-                                    <!--<li class="slds-path__item slds-is-incomplete" role="presentation">
-                                        <a aria-selected="false" class="slds-path__link" href="javascript:void(0);" id="path-5" role="option" tabindex="-1">
-                                            <span class="slds-path__stage">
-                                                <lightning:icon iconName="utility:check" size="x-small" />
-                                            </span>
-                                            <span class="slds-path__title">Closed</span>
-                                        </a>
-                                    </li>-->
+
                                 </ul>
                             </div>
                         </div>
