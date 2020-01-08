@@ -76,3 +76,21 @@ In the image below:
 ###### DISCLAIMER
 
 This component is based on the [Path Blueprint](https://lightningdesignsystem.com/components/path/) from the Lightning Design System.
+
+### How to Deploy it in your Salesforce Org (Sandbox)
+
+Open the Developer Console and proceed as follows:
+
+1. Create a new Apex Class (File > New > Apex Class) and name it: `lookupfieldController`.
+2. Create a new Lightning Component (File > New > Lightning Component) and name it `lookupField`.
+3. Copy and pase the code from the SRC directory into the recently created files.
+   - For the lightning component:
+     - `COMPONENT`: _linear_path.cmp_
+     - `CONTROLLER`: _linear_path.js_
+     - `DESIGN`: _linear_path.design_
+     - `STYLE`: _linear_path.css_
+   - For the `Apex Class`: _linear_path_controller.apxc_
+
+Alternatively you can use `deploy2.org` to deploy directly from Github to your Sandbox.
+
+[![Deploy](https://deploy2.org/dist/deploy2org.svg)](https://deploy2.org/deploy)
