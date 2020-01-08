@@ -81,8 +81,8 @@ This component is based on the [Path Blueprint](https://lightningdesignsystem.co
 
 Open the Developer Console and proceed as follows:
 
-1. Create a new Apex Class (File > New > Apex Class) and name it: `lookupfieldController`.
-2. Create a new Lightning Component (File > New > Lightning Component) and name it `lookupField`.
+1. Create a new Apex Class (File > New > Apex Class) and name it: `linear_path_controller`.
+2. Create a new Lightning Component (File > New > Lightning Component) and name it `linear_path`.
 3. Copy and pase the code from the SRC directory into the recently created files.
    - For the lightning component:
      - `COMPONENT`: _linear_path.cmp_
