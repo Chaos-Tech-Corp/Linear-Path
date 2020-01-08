@@ -26,7 +26,8 @@ public class linear_path_controller {
             path.isLost = path.isClosed && !((Boolean)sobjList[0].get('IsWon'));
             if (path.isClosed) {
                 //replace the last value with the value name
-                path.values[path.values.size()-1] = (String)sobjList[0].get('StageName');
+                path.values.put('Closed',(String)sobjList[0].get('StageName'));
+                //path.values[path.values.size()-1] = (String)sobjList[0].get('StageName');
             }
         } else {
             path.isLost = false;
@@ -35,24 +36,32 @@ public class linear_path_controller {
         return path;
     }
     
-    public static List<string> stageValues() {
+    public static Map<string, string> stageValues() {
+        
+        Map<string, string> sourceValues = picklistValues('Opportunity','StageName');
+        
         //retrieve the values from the StageName field, only active values and group all closed values under 'Close'
-        List<string> values = new List<string>();
-        for(OpportunityStage stage : [SELECT ApiName, Description, IsWon, IsClosed FROM OpportunityStage WHERE IsActive = true AND IsClosed = false ORDER BY SortOrder ASC]) {
-            values.add(stage.ApiName);
+        Map<string, string> values = new Map<string, string>();
+        for(OpportunityStage stage : [SELECT ApiName FROM OpportunityStage WHERE IsActive = true AND IsClosed = false ORDER BY SortOrder ASC]) {
+            if (sourceValues.containsKey(stage.ApiName)) {
+            	values.put(stage.ApiName, sourceValues.get(stage.ApiName));
+            }
         }
-        values.add('Closed');
+        //values.add('Closed');
+        values.put('Closed','Closed');
         return values;
     }
     
-    public static String[] picklistValues(String objectName, String fieldName) {
-        List<string> values = new List<string>();
+    public static Map<string, string> picklistValues(String objectName, String fieldName) {
+        Map<string, string> values = new Map<string, string>();
             
         Schema.DescribeSobjectResult[] results = Schema.describeSObjects(new String[]{objectName});
         
         for(Schema.DescribeSobjectResult res : results) {
             for (Schema.PicklistEntry entry : res.fields.getMap().get(fieldName).getDescribe().getPicklistValues()) {
-                if (entry.isActive()) {values.add(entry.getValue());}
+                if (entry.isActive()) {
+                    values.put(entry.getValue(), entry.getLabel());
+                }
             }
         }
         return values;
@@ -61,7 +70,7 @@ public class linear_path_controller {
     
     public class pathDetails {
         @Auraenabled
-        public List<string> values;
+        public Map<string, string> values;
         @Auraenabled
         public object current;
         @Auraenabled
